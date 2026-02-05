@@ -15,3 +15,6 @@
 * As a user, I want to have a stopwatch timer from when I first start completing the puzzle so as I can see how first I can solve puzzle.
 
 * As a user, I want to be able to view the rules so as when I'm playing for the first time I know what to do and I am not confused.
+
+### Acceptance Test:
+
