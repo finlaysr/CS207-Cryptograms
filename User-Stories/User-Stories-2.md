@@ -2,15 +2,14 @@
 
 ## Stakeholder : User
 
-* As a user, I want to be able to ask for a hint if i'm stuck as I continue progress with the puzzle and not leave it unsolved.
-
-* As a user, I want to be able to display the full solution to a puzzle as if I am stuck and cannot make any further progress, I want to see where I went wrong.
+* As a user, I want to be able to take options to continue progress so I can complete the puzzle. 
+    * As a user, I want be able to receive a hint to solve once letter.
+    * As a user, I want to be able to see the full solution for a current game if I feel I am fully stuck and can not make any more progress.
+    * As a user, I want to be able to change my current puzzle if I find the difficulty too hard.
 
 * As a user, when I correctly decipher a letter I would like the game to autofill all other instances of this letter in the message so as it is more convinient and I don't have to re-type the same letter multiple times.
 
 * As a user, I want to be able to have the option to play a large options of games, so as there is variety in the messages to be decoding and I am not repeating the same messages.
-
-* As a user, I want to be able to change my puzzle if the current one is too difficult, so that I am not stuck and can get another chance to solve a puzzle.
 
 * As a user, I want to have a stopwatch timer from when I first start completing the puzzle so as I can see how first I can solve puzzle.
 
@@ -18,7 +17,7 @@
 
 * As a user, I want to check the frequency of letters appearing in the message, as this will make it easier to solve the puzzle.
 
-## Acceptance Tests
+## Acceptance Tests (2 per story)
 
 ### Senario: User is Stuck 
 
