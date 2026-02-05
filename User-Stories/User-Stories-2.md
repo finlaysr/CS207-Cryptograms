@@ -16,5 +16,11 @@
 
 * As a user, I want to be able to view the rules so as when I'm playing for the first time I know what to do and I am not confused.
 
-### Acceptance Test:
+* As a user, I want to check the frequency of letters appearing in the message, as this will make it easier to solve the puzzle.
+
+## Acceptance Tests
+
+### Senario: User is Stuck 
+
+
 
