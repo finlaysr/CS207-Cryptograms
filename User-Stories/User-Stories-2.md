@@ -22,6 +22,13 @@
 
 * As a player, I want to check the frequency of letters appearing in the message, as this will make it easier to solve the puzzle.
 
+* As a player, I want to be able to move between different games including incomplete attempted ones, so that I can finish incomplete puzzles.
+
+* As player, I want to be able to access a menu of all the options while playing the games, so I am aware of my command options (exit, solution, move back/forward, save).
+
+* As a player, I want to able to see which letters haven't been used, so its more convienent which letters I still have to put on the board.
+
+* As a player, I want to an error message when I use a letter that has already been used, so that I don't accidently put the same letter over and over again. 
 ## Acceptance Tests (2 per story)
 
 ### Scenario: Player is Stuck 
