@@ -2,12 +2,10 @@
 
 ## Stakeholder : player
 
-> "As a player, I want to be able to see my score and other players' scores after my game session, so that I can compare"
-
-* As a player, I want to be able to view my stats like puzzles completed, like hints used, so I can then compare to other players.
-* As a player I want my login name saved so that my progress that my personal progress can be saved and accessed.
-* As a player I want see my current game progress and other user progresses as a scoreboard after my session ends, so that I can easily see my score.
+* As a player, I want to be able to view my stats like puzzles completed so I can then compare to other players in a leaderboard format.
+* As a player I want my name saved so that my personal progress can be saved and accessed as well as stored in the leaderboard.
 * As a player, I want my incomplete sessions to be saved during the term of the program, so that when I return to particular quiz my state remains.
+* As a player, I want to be able to come back to playing after a while and still be able to see my stats in the leaderboard so as I don't lose my progress everytime I stop playing. 
 
 ### Acceptance Test:
 
@@ -33,4 +31,4 @@
 
 * **Given** that previous games have been completed
 * **When** the user finishes their game
-* **Then** the user is shown their score, along with the top scores from previous games
+* **Then** the user is shown their score, along with the top 10 scores from previous games
