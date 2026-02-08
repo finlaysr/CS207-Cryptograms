@@ -1,3 +1,9 @@
+# CS207 Cryptograms Project -  User Stories - Group 25 2026
+
+Callum Charteris, Duncun Amundrund, Finlay Robb, Luke Wallace, Muhammad Saad Khan
+
+<br>
+
 # User Stories 1 - Tracking progress
 
 ## Stakeholder : player
@@ -5,7 +11,7 @@
 * As a player, I want to be able to view my stats like puzzles completed so I can then compare to other players in a leaderboard format.
     * As a player I want my name saved so that my personal progress can be saved and accessed as well as stored in the leaderboard.
     * As a player, I want my incomplete sessions to be saved, so that when I return to particular quiz the state remains as it was.
-    * As a player, I want to be able to come back to playing after a while and still have my stats still stored in the leaderboard so I don't lose my progress everytime I stop playing. 
+    * As a player, I want to be able to come back to playing after a while and still have my stats still stored in the leaderboard, so I don't lose my progress everytime I stop playing. 
 
 ### Acceptance Test:
 
