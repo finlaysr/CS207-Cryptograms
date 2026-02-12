@@ -1,0 +1,23 @@
+@startuml
+
+class Game {
+    - currPlayer: Player
+    - players: arraylist<Player>
+
+    + startup()
+    + shutdown()
+    - enterInput(): String
+    - processInput(input: String)
+}
+
+note left of Game::startup
+    loads files,
+    creates users and cryptograms
+end note
+
+note left of Game::shutdown
+    saves players and
+    cryptograms to files
+end note
+
+@enduml

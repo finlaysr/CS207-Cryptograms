@@ -1,0 +1,20 @@
+@startuml
+title CS207 Cryptogram Project - Class Diagram - Group 25 2026
+top to bottom direction
+' !pragma layout smetana
+
+' Include these parts of the diagram
+!include ./game.puml
+!include ./cryptogram.puml
+!include ./user.puml
+
+class Scoreboard{
+}
+note bottom: why do we need this?
+
+class GUI{
+}
+
+Package javax.Swing{}
+
+@enduml

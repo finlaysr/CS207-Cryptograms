@@ -1,0 +1,38 @@
+@startuml
+
+' Maybe should be a interface
+class Cryptogram {
+    - cryptoID: int
+    - solution: String
+    - guesses: Stack<Hashmap<Character, Character>>
+
+    + getHint()
+    + getSol()
+    + undoInput()
+
+    + loadFromFile(file: File): Cryptogram
+    + saveToFile()
+    ..getters..
+    + getCryptoID(): int
+    + getFreq(): Hashmap<Character, int>
+}
+
+note left of Cryptogram::guesses
+ Hashmap<key, value>:
+ hey: correct character
+ value: user guess
+end note
+
+note left of Cryptogram::undoInput
+    pop the last value
+    from the guesses stack
+end note
+
+note left of Cryptogram::loadFromFile
+    creates a new cryptogram
+    using data stored in a
+    file from the previous run
+end note
+
+@enduml
+

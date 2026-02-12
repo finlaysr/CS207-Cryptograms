@@ -1,0 +1,28 @@
+@startuml
+
+interface User {
+    ..setter methods..
+    + genID()
+
+    ..getter methods..
+    + getName(): String
+    + getID(): int
+}
+
+class Player implements User {
+    - userID: int
+    - name: String
+    - score: int
+    - currCrypto: Cryptogram
+
+    - saveToFile()
+    ..Setter Methods..
+    - updateScore()
+    + loadFromFile(file: File): Player
+
+    ..Getter Methods..
+    + getScore(): int
+    + getCurrCrypto(): Cryptogram
+}
+
+@enduml
