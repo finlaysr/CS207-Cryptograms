@@ -1,0 +1,57 @@
+@startuml
+interface User {
+
+    ' Setter methods
+    + genID()
+
+    ' Getter methods..
+    + getName(): String
+    + getID(): int
+}
+
+class Player implements User {
+
+    ' Field
+    - userID: int
+    - name: String
+    - score: int
+    - currCrypto: Cryptogram
+
+    ' Setter Methods
+    - updateScore()
+
+    ' Getter Methods
+    + getScore(): int
+    + getCurrCrypto(): Cryptogram
+
+}
+
+class Game {
+    'Field
+    - currPlayer: Player
+    - players: arraylist<Player>
+
+    + getCurrPlayer(): Player
+    - loadCrypto(crypto: Cryptogram)
+    + enterInput(): String
+}
+
+' If two players are on the same cryptogram
+class Cryptogram {
+
+    - solution: String
+    - guesses: Stack<Hashmap<Character, Character>>
+    + getHint(crypto: Cryptogram)
+    + getSol(crypto: Cryptogram)
+    + undoInput()
+    - getFreq(): Hashmap<Character, int>
+}
+class Scoreboard
+
+class GUI{
+
+
+}
+
+
+@enduml
