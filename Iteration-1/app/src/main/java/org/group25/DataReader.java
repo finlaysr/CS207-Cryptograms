@@ -5,6 +5,11 @@ import java.util.ArrayList;
 
 public class DataReader {
     void saveUsers(ArrayList<User> users) {
+        File dir = new File("src" + File.separator + "data" + File.separator + "users");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
         for (User user : users) {
             try (FileOutputStream fos = new FileOutputStream("src/data/users/" + user.getUsername() + ".bin");
                  ObjectOutputStream oos = new ObjectOutputStream(fos)) {

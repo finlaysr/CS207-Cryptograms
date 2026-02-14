@@ -53,6 +53,7 @@ public class GUI extends JPanel {
 
 class LoginSignUp extends JPanel {
     private JPanel contentPane;
+    private JLabel errorLabel;
 
     private GridBagConstraints setConstraints(int x, int y, int width, int height) {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -73,29 +74,12 @@ class LoginSignUp extends JPanel {
         tabs.addTab("Login", new Login());
         tabs.addTab("Sign Up", new SignUp());
         contentPane.add(tabs, BorderLayout.NORTH);
-    }
+        contentPane.revalidate();
+        contentPane.repaint();
 
-    protected void switchTo(JPanel panel) {
-        contentPane.removeAll();
-        contentPane.add(panel, BorderLayout.CENTER);
-        contentPane.revalidate(); // Revalidate the content pane to reflect changes
-        contentPane.repaint(); // Ensure the UI is updated
-    }
+        errorLabel = new JLabel("");
+        contentPane.add(errorLabel, BorderLayout.SOUTH);
 
-    class Choice extends JPanel {
-        public Choice() {
-            setLayout(new GridLayout(3, 1));
-
-            JButton logInButton = new JButton("Log In");
-            logInButton.addActionListener(e -> {
-                System.out.println("Logging In");
-                SwingUtilities.invokeLater(() -> switchTo(new Login())); // Use invokeLater to safely update UI
-            });
-            this.add(logInButton);
-
-            JButton signUpButton = new JButton("Sign Up");
-            this.add(signUpButton);
-        }
     }
 
     class SignUp extends JPanel {
@@ -139,6 +123,7 @@ class LoginSignUp extends JPanel {
                 });
                 if (!found.get()) {
                     System.out.println("Couldn't find user: " + usernameField.getText());
+                    errorLabel.setText("Username not found!");
                 }
             });
             this.add(logInButton, setConstraints(0, 2, 2, 1));
