@@ -12,7 +12,7 @@ public class DataReader {
         }
 
         for (User user : users) {
-            try (FileOutputStream fos = new FileOutputStream(dir + File.separator + user.getUsername() + ".bin");
+            try (FileOutputStream fos = new FileOutputStream(dir + File.separator + user.getUsername() + ".ser");
                  ObjectOutputStream oos = new ObjectOutputStream(fos)) {
                 oos.writeObject(user);
             } catch (IOException error) {
@@ -27,7 +27,7 @@ public class DataReader {
         File[] usersDir = dir.listFiles();
         if (usersDir != null) {
             for (File file : usersDir) {
-                if (file.getName().endsWith(".bin")) {
+                if (file.getName().endsWith(".ser")) {
                     try (FileInputStream fis = new FileInputStream(file);
                          ObjectInputStream ois = new ObjectInputStream(fis)) {
                         users.add((User) ois.readObject());

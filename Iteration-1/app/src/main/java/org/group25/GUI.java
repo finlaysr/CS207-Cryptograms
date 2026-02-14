@@ -77,6 +77,7 @@ class LoginSignUp extends JPanel {
             JButton logInButton = new JButton("Sign Up");
             logInButton.addActionListener(e -> {
                 errorLabel.setText("");
+                usernameField.setText(usernameField.getText().strip());
 
                 if (usernameField.getText().isEmpty()) {
                     errorLabel.setText("Username cannot be empty!");
@@ -108,6 +109,7 @@ class LoginSignUp extends JPanel {
             JButton logInButton = new JButton("Log In");
             logInButton.addActionListener(e -> {
                 errorLabel.setText("");
+                usernameField.setText(usernameField.getText().strip());
 
                 AtomicBoolean found = new AtomicBoolean(false);
                 App.getUsers().forEach(user -> {

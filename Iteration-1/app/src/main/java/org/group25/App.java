@@ -1,7 +1,6 @@
 package org.group25;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 public class App {
