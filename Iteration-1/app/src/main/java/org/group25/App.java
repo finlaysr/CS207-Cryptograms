@@ -2,6 +2,7 @@ package org.group25;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class App {
     private static ArrayList<User> users;
@@ -12,16 +13,16 @@ public class App {
         GUI gui = new GUI();
     }
 
-    public static void addUser(String username, String password) {
-        users.add(new User(username));
-    }
-
     public static void startup() {
         DataReader dataReader = new DataReader();
         users = dataReader.loadUsers();
         for (User user : users) {
             System.out.println(user.getUsername());
         }
+    }
+
+    public static void addUser(String username) {
+        users.add(new User(username));
     }
 
     public static void shutdown() {
@@ -33,12 +34,11 @@ public class App {
         dataReader.saveUsers(users);
     }
 
-    public static Iterator<User> getUsers() {
-        return users.iterator();
+    public static Stream<User> getUsers() {
+        return users.stream();
     }
 
     public static void setCurrentUser(User user){
         currentUser = user;
     }
-
 }

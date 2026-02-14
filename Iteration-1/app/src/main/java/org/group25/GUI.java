@@ -52,37 +52,20 @@ public class GUI extends JPanel {
 }
 
 class LoginSignUp extends JPanel {
-    private JPanel contentPane;
-    private JLabel errorLabel;
-
-    private GridBagConstraints setConstraints(int x, int y, int width, int height) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = x;
-        gbc.gridy = y;
-        gbc.gridwidth = width;
-        gbc.gridheight = height;
-        return gbc;
-    }
-
     public LoginSignUp() {
-        this.setLayout(new BorderLayout());
-        contentPane = new JPanel();
-        contentPane.setLayout(new BorderLayout());
-        this.add(contentPane, BorderLayout.CENTER);
+        this.setLayout(new GridBagLayout());
 
         JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Login", new Login());
         tabs.addTab("Sign Up", new SignUp());
-        contentPane.add(tabs, BorderLayout.NORTH);
-        contentPane.revalidate();
-        contentPane.repaint();
-
-        errorLabel = new JLabel("");
-        contentPane.add(errorLabel, BorderLayout.SOUTH);
-
+        tabs.addTab("Log In", new Login());
+        this.add(tabs, setConstraints(0, 0, 1, 1));
+        this.revalidate();
+        this.repaint();
     }
 
     class SignUp extends JPanel {
+        private JLabel errorLabel;
+
         public SignUp() {
             this.setLayout(new GridBagLayout());
             this.add(new JLabel("Welcome to the app!:"), setConstraints(0, 0, 2, 1));
@@ -93,15 +76,27 @@ class LoginSignUp extends JPanel {
 
             JButton logInButton = new JButton("Sign Up");
             logInButton.addActionListener(e -> {
-                System.out.println("Sign Up");
-                System.out.println(usernameField.getText());
-                App.addUser(usernameField.getText(), "");
+                errorLabel.setText("");
+
+                if (usernameField.getText().isEmpty()) {
+                    errorLabel.setText("Username cannot be empty!");
+                } else if (App.getUsers().anyMatch(username -> username.getUsername().equals(usernameField.getText()))) {
+                    errorLabel.setText("Username already exists!");
+                } else {
+                    System.out.println("user added!");
+                    App.addUser(usernameField.getText());
+                }
             });
             this.add(logInButton, setConstraints(0, 2, 2, 1));
+
+            errorLabel = new JLabel("");
+            this.add(errorLabel, setConstraints(0, 3, 2, 1));
         }
     }
 
     class Login extends JPanel {
+        private JLabel errorLabel;
+
         public Login() {
             this.setLayout(new GridBagLayout());
             this.add(new JLabel("Welcome back!:"), setConstraints(0, 0, 2, 1));
@@ -112,9 +107,10 @@ class LoginSignUp extends JPanel {
 
             JButton logInButton = new JButton("Log In");
             logInButton.addActionListener(e -> {
-                System.out.println("Login");
+                errorLabel.setText("");
+
                 AtomicBoolean found = new AtomicBoolean(false);
-                App.getUsers().forEachRemaining(user -> {
+                App.getUsers().forEach(user -> {
                     System.out.println(user.getUsername());
                     if (user.getUsername().equals(usernameField.getText())) {
                         App.setCurrentUser(user);
@@ -122,12 +118,23 @@ class LoginSignUp extends JPanel {
                     }
                 });
                 if (!found.get()) {
-                    System.out.println("Couldn't find user: " + usernameField.getText());
                     errorLabel.setText("Username not found!");
                 }
             });
             this.add(logInButton, setConstraints(0, 2, 2, 1));
+
+            errorLabel = new JLabel("");
+            this.add(errorLabel, setConstraints(0, 3, 2, 1));
         }
+    }
+
+    private GridBagConstraints setConstraints(int x, int y, int width, int height) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = width;
+        gbc.gridheight = height;
+        return gbc;
     }
 }
 
