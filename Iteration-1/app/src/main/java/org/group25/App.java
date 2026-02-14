@@ -1,9 +1,11 @@
 package org.group25;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class App {
     private static ArrayList<User> users;
+    private static User currentUser;
 
     public static void main(String[] args) {
         startup();
@@ -30,4 +32,13 @@ public class App {
         DataReader dataReader = new DataReader();
         dataReader.saveUsers(users);
     }
+
+    public static Iterator<User> getUsers() {
+        return users.iterator();
+    }
+
+    public static void setCurrentUser(User user){
+        currentUser = user;
+    }
+
 }

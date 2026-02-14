@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GUI extends JPanel {
@@ -98,8 +98,8 @@ class LoginSignUp extends JPanel {
         }
     }
 
-    class Login extends JPanel {
-        public Login() {
+    class SignUp extends JPanel {
+        public SignUp() {
             this.setLayout(new GridBagLayout());
             this.add(new JLabel("Welcome to the app!:"), setConstraints(0, 0, 2, 1));
             this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
@@ -107,28 +107,41 @@ class LoginSignUp extends JPanel {
             JTextField usernameField = new JTextField(20);
             this.add(usernameField, setConstraints(1, 1, 1, 1));
 
-            JButton logInButton = new JButton("Log In");
+            JButton logInButton = new JButton("Sign Up");
             logInButton.addActionListener(e -> {
-                System.out.println("Logging In");
+                System.out.println("Sign Up");
                 System.out.println(usernameField.getText());
-
                 App.addUser(usernameField.getText(), "");
             });
             this.add(logInButton, setConstraints(0, 2, 2, 1));
         }
-
     }
 
-    class SignUp extends JPanel {
-        public SignUp() {
-            this.setLayout(new GridLayout(3, 1)); // Make sure the login form is laid out properly
-            this.add(new JLabel("Username:"));
+    class Login extends JPanel {
+        public Login() {
+            this.setLayout(new GridBagLayout());
+            this.add(new JLabel("Welcome back!:"), setConstraints(0, 0, 2, 1));
+            this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
 
-            JTextField usernameField = new JTextField(10);
-            this.add(usernameField);
+            JTextField usernameField = new JTextField(20);
+            this.add(usernameField, setConstraints(1, 1, 1, 1));
 
-            JButton logInButton = new JButton("Sign Up");
-            this.add(logInButton);
+            JButton logInButton = new JButton("Log In");
+            logInButton.addActionListener(e -> {
+                System.out.println("Login");
+                AtomicBoolean found = new AtomicBoolean(false);
+                App.getUsers().forEachRemaining(user -> {
+                    System.out.println(user.getUsername());
+                    if (user.getUsername().equals(usernameField.getText())) {
+                        App.setCurrentUser(user);
+                        found.set(true);
+                    }
+                });
+                if (!found.get()) {
+                    System.out.println("Couldn't find user: " + usernameField.getText());
+                }
+            });
+            this.add(logInButton, setConstraints(0, 2, 2, 1));
         }
     }
 }
