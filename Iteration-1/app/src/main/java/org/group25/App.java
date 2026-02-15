@@ -8,7 +8,7 @@ public class App {
   private static ArrayList<User> users;
   private static User currentUser;
 
-  public static void main(String[] args) {
+  public App() {
     startup();
     GUI gui = new GUI();
   }
