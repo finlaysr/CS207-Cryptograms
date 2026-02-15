@@ -20,10 +20,6 @@ public class App {
         }
     }
 
-    public static void addUser(String username) {
-        users.add(new User(username));
-    }
-
     public static void shutdown() {
         System.out.println("Users:");
         for (User user : users) {
@@ -33,8 +29,17 @@ public class App {
         dataReader.saveUsers(users);
     }
 
+    public static void addUser(String username) {
+        users.add(new User(username));
+        setCurrentUser(users.getLast());
+    }
+
     public static Stream<User> getUsers() {
         return users.stream();
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     public static void setCurrentUser(User user){

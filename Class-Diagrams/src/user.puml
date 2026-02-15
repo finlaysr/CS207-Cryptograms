@@ -14,6 +14,7 @@ class Player implements User {
     - name: String
     - score: int
     - currCrypto: Cryptogram
+    - gamesPlayed: int
 
     - saveToFile()
     ..Setter Methods..
@@ -23,6 +24,7 @@ class Player implements User {
     ..Getter Methods..
     + getScore(): int
     + getCurrCrypto(): Cryptogram
+    + getGamesPlayed(): int
 }
 
 @enduml

@@ -8,6 +8,12 @@ top to bottom direction
 !include ./cryptogram.puml
 !include ./user.puml
 
+class App{
+    +loadUsers()
+    +saveUsers()
+    +startGame()
+}
+
 class Scoreboard{
 }
 note bottom: why do we need this?
