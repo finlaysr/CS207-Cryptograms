@@ -9,7 +9,7 @@ class AppTest {
   @Test
   void addUserTest() {
     App app = new App();
-    app.addUser("test");
-    assertNotNull(app.getUsers());
+    app.getAppData().addUser("test");
+    assertNotNull(app.getAppData().getUsers());
   }
 }

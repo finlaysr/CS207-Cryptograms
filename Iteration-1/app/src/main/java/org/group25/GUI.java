@@ -9,11 +9,13 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 public class GUI extends JPanel {
+  private final AppData appData;
   private JFrame mainFrame;
   private static JPanel contentPane;
   private JLabel titleLabel;
 
-  public GUI() {
+  public GUI(AppData appData) {
+    this.appData = appData;
     SwingUtilities.invokeLater(this::setup);
   }
 
@@ -41,7 +43,7 @@ public class GUI extends JPanel {
     mainFrame.add(contentPane);
 
     // Use invokeLater to ensure thread safety
-    SwingUtilities.invokeLater(() -> switchContent(new LoginSignUp()));
+    SwingUtilities.invokeLater(() -> switchContent(new LoginSignUp(appData)));
   }
 
   protected static void switchContent(JPanel pane) {
@@ -53,12 +55,15 @@ public class GUI extends JPanel {
 }
 
 class LoginSignUp extends JPanel {
-  public LoginSignUp() {
+  private final AppData appData;
+
+  public LoginSignUp(AppData appData) {
+    this.appData = appData;
     this.setLayout(new GridBagLayout());
 
     JTabbedPane tabs = new JTabbedPane();
-    tabs.addTab("Sign Up", new SignUp());
-    tabs.addTab("Log In", new Login());
+    tabs.addTab("Sign Up", new SignUp(appData));
+    tabs.addTab("Log In", new Login(appData));
     this.add(tabs, setConstraints(0, 0, 1, 1));
     this.revalidate();
     this.repaint();
@@ -67,8 +72,11 @@ class LoginSignUp extends JPanel {
   class SignUp extends JPanel {
     private JLabel errorLabel;
     private JTextField usernameField;
+    private final AppData appData;
 
-    public SignUp() {
+    public SignUp(AppData appData) {
+      this.appData = appData;
+
       this.setLayout(new GridBagLayout());
       this.add(new JLabel("Welcome to the app!:"), setConstraints(0, 0, 2, 1));
       this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
@@ -77,10 +85,7 @@ class LoginSignUp extends JPanel {
       this.add(usernameField, setConstraints(1, 1, 1, 1));
 
       JButton logInButton = new JButton("Sign Up");
-      logInButton.addActionListener(
-          e -> {
-            signUpButton();
-          });
+      logInButton.addActionListener(e -> signUpButton());
       this.add(logInButton, setConstraints(0, 2, 2, 1));
 
       errorLabel = new JLabel("");
@@ -93,13 +98,14 @@ class LoginSignUp extends JPanel {
 
       if (usernameField.getText().isEmpty()) {
         errorLabel.setText("Username cannot be empty!");
-      } else if (App.getUsers()
+      } else if (this.appData
+          .getUsers()
           .anyMatch(username -> username.getUsername().equals(usernameField.getText()))) {
         errorLabel.setText("Username already exists!");
       } else {
         System.out.println("user added!");
-        App.addUser(usernameField.getText());
-        System.out.println("logged in as " + App.getCurrentUser().getUsername());
+        this.appData.addUser(usernameField.getText());
+        System.out.println("logged in as " + this.appData.getCurrentUser().getUsername());
       }
     }
   }
@@ -107,8 +113,10 @@ class LoginSignUp extends JPanel {
   class Login extends JPanel {
     private JLabel errorLabel;
     private JTextField usernameField;
+    private final AppData appData;
 
-    public Login() {
+    public Login(AppData appData) {
+      this.appData = appData;
       this.setLayout(new GridBagLayout());
       this.add(new JLabel("Welcome back!:"), setConstraints(0, 0, 2, 1));
       this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
@@ -117,10 +125,7 @@ class LoginSignUp extends JPanel {
       this.add(usernameField, setConstraints(1, 1, 1, 1));
 
       JButton logInButton = new JButton("Log In");
-      logInButton.addActionListener(
-          e -> {
-            loginButton();
-          });
+      logInButton.addActionListener(e -> loginButton());
       this.add(logInButton, setConstraints(0, 2, 2, 1));
 
       errorLabel = new JLabel("");
@@ -134,17 +139,11 @@ class LoginSignUp extends JPanel {
         errorLabel.setText("Username cannot be empty!");
         return;
       }
-      User newUser =
-          App.getUsers()
-              .filter(user -> user.getUsername().equals(usernameField.getText()))
-              .findFirst()
-              .orElse(null);
-      if (newUser != null) {
-        App.setCurrentUser(newUser);
-        System.out.println("logged in as " + App.getCurrentUser().getUsername());
-        SwingUtilities.invokeLater(() -> GUI.switchContent(new Scoreboard()));
+      if (this.appData.setCurrentUser(usernameField.getText())) {
+        System.out.println("logged in as " + this.appData.getCurrentUser().getUsername());
+        SwingUtilities.invokeLater(() -> GUI.switchContent(new Scoreboard(appData)));
       } else {
-        errorLabel.setText("Username not found!");
+        errorLabel.setText("Username already exists!");
       }
     }
   }
@@ -160,20 +159,24 @@ class LoginSignUp extends JPanel {
 }
 
 class Scoreboard extends JPanel {
-  JTable scoreboard;
+  private final AppData appData;
+  JTable table;
 
-  public Scoreboard() {
+  public Scoreboard(AppData appData) {
+    this.appData = appData;
+
     this.setLayout(new GridBagLayout());
 
     String[] columnNames = {"Username", "Games Won"};
     String[][] data =
-        App.getUsers()
+        this.appData
+            .getUsers()
             .map(user -> new String[] {user.getUsername(), String.valueOf(user.getGamesWon())})
             .toArray(String[][]::new);
-    scoreboard = new JTable(data, columnNames);
-    scoreboard.setDefaultEditor(Object.class, null);
+    table = new JTable(data, columnNames);
+    table.setDefaultEditor(Object.class, null);
 
-    JScrollPane scrollPane = new JScrollPane(scoreboard);
+    JScrollPane scrollPane = new JScrollPane(table);
     this.add(scrollPane);
   }
 }

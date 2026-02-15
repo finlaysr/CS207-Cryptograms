@@ -1,49 +1,21 @@
 /* CS207 Cryptogram Project - Group 25 2026 */
 package org.group25;
 
-import java.util.ArrayList;
-import java.util.stream.Stream;
-
 public class App {
-  private static ArrayList<User> users;
-  private static User currentUser;
+  static AppData appData;
 
-  public App() {
-    startup();
-    GUI gui = new GUI();
-  }
-
-  public static void startup() {
-    DataReader dataReader = new DataReader();
-    users = dataReader.loadUsers();
-    for (User user : users) {
-      System.out.println(user.getUsername());
-    }
+  public static void main(String[] args) {
+    appData = new AppData();
+    GUI gui = new GUI(appData);
   }
 
   public static void shutdown() {
     System.out.println("Users:");
-    for (User user : users) {
-      System.out.println(user.getUsername());
-    }
-    DataReader dataReader = new DataReader();
-    dataReader.saveUsers(users);
+    appData.getUsers().forEach(user -> System.out.println(user.getUsername()));
+    appData.saveUsers();
   }
 
-  public static void addUser(String username) {
-    users.add(new User(username));
-    setCurrentUser(users.getLast());
-  }
-
-  public static Stream<User> getUsers() {
-    return users.stream();
-  }
-
-  public static User getCurrentUser() {
-    return currentUser;
-  }
-
-  public static void setCurrentUser(User user) {
-    currentUser = user;
+  public static AppData getAppData() {
+    return appData;
   }
 }
