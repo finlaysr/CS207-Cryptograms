@@ -8,7 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
-    checkstyle
+    id("com.diffplug.spotless") version "8.2.1"
 }
 
 repositories {
@@ -43,8 +43,32 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
-checkstyle {
-    toolVersion = "13.2.0"
-    configFile = file("../config/checkstyle/checkstyle.xml")
-    isIgnoreFailures = false
+spotless {
+    // optional: limit format enforcement to just the files changed by this feature branch
+    // ratchetFrom("origin/main")
+
+    format("misc") {
+        // define the files to apply `misc` to
+        target("*.gradle", ".gitattributes", ".gitignore")
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        leadingSpacesToTabs() // or leadingTabsToSpaces(n)
+        endWithNewline()
+    }
+
+    java {
+        importOrder()
+        removeUnusedImports()
+
+        cleanthat()
+
+        // apply a specific flavor of google-java-format
+        googleJavaFormat("1.34.1").reflowLongStrings()
+
+        formatAnnotations()
+
+        // license header
+        licenseHeader("/* CS207 Cryptogram Project - Group 25 2026 */")
+    }
 }

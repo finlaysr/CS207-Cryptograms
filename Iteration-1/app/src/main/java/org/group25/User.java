@@ -1,33 +1,34 @@
+/* CS207 Cryptogram Project - Group 25 2026 */
 package org.group25;
 
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private final String username;
-    private final int gamesTotal;
-    private final int gamesWon;
-    private final int currGame;
+  private final String username;
+  private final int gamesTotal;
+  private final int gamesWon;
+  private final int currGame;
 
-    public User(String username) {
-        this.username = username;
-        this.gamesTotal = 0;
-        this.gamesWon = 0;
-        this.currGame = 0;
-    }
+  public User(String username) {
+    this.username = username;
+    this.gamesTotal = 0;
+    this.gamesWon = 0;
+    this.currGame = 0;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public int getGamesTotal() {
-        return gamesTotal;
-    }
+  public int getGamesTotal() {
+    return gamesTotal;
+  }
 
-    public int getGamesWon() {
-        return gamesWon;
-    }
+  public int getGamesWon() {
+    return gamesWon;
+  }
 
-    public int getCurrGame() {
-        return currGame;
-    }
+  public int getCurrGame() {
+    return currGame;
+  }
 }
