@@ -1,9 +1,7 @@
 /* CS207 Cryptogram Project - Iteration 1 - Group 25 2026 */
 package org.group25;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
@@ -11,8 +9,8 @@ import javax.swing.*;
 public class GUI extends JPanel {
   private final AppData appData;
   private JFrame mainFrame;
-  private static JPanel contentPane;
   private JLabel titleLabel;
+  private static JPanel contentPane;
 
   public GUI(AppData appData) {
     this.appData = appData;
@@ -33,14 +31,14 @@ public class GUI extends JPanel {
         });
 
     mainFrame.setSize(800, 600);
-    mainFrame.setLayout(new GridLayout(3, 1));
+    mainFrame.setLayout(new GridBagLayout());
     mainFrame.setVisible(true);
 
-    titleLabel = new JLabel("Group 25 Cryptogram Game", SwingConstants.CENTER);
-    mainFrame.add(titleLabel);
+    titleLabel = new JLabel("Group 25 Cryptogram Game");
+    mainFrame.add(titleLabel, GUI.setConstraints(0, 0, 1, 1));
 
     contentPane = new JPanel();
-    mainFrame.add(contentPane);
+    mainFrame.add(contentPane, GUI.setConstraints(0, 1, 1, 1));
 
     switchContent(new LoginSignUp(appData));
   }
@@ -209,15 +207,27 @@ class GameBoard extends JPanel {
         this.appData = appData;
         this.setLayout(new GridBagLayout());
 
-        this.add(new JTextArea(game.getCurrentCryptogram().getSolution(), 1, 1));
+        JTextArea textArea = new JTextArea(5, 20);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(new Font(Font.SERIF, Font.BOLD, 20));
+        JScrollPane scrollPane =
+            new JScrollPane(
+                textArea,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        JButton back = new JButton("Back");
-        back.addActionListener(_ -> GUI.switchContent(new GameBoard(appData)));
-        this.add(back, GUI.setConstraints(0, 1, 1, 1));
+        textArea.setText(game.getCurrentCryptogram().getSolution());
+        this.add(scrollPane, GUI.setConstraints(0, 0, 1, 1));
 
         JButton scoreButton = new JButton("View Scoreboard");
         scoreButton.addActionListener(_ -> GUI.switchContent(new Scoreboard(appData, this)));
-        this.add(scoreButton, GUI.setConstraints(0, 2, 1, 1));
+        this.add(scoreButton, GUI.setConstraints(0, 1, 1, 1));
+
+        JButton back = new JButton("Back");
+        back.addActionListener(_ -> GUI.switchContent(new GameBoard(appData)));
+        this.add(back, GUI.setConstraints(0, 2, 1, 1));
       }
     }
   }
@@ -241,7 +251,11 @@ class Scoreboard extends JPanel {
     table = new JTable(data, columnNames);
     table.setDefaultEditor(Object.class, null);
 
-    JScrollPane scrollPane = new JScrollPane(table);
+    JScrollPane scrollPane =
+        new JScrollPane(
+            table,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     this.add(scrollPane, GUI.setConstraints(0, 1, 1, 1));
 
     JButton back = new JButton("Back");
