@@ -12,12 +12,22 @@ public class AppData {
   private ArrayList<Cryptogram> cryptograms;
 
   public AppData() {
-
     users = new ArrayList<>();
     cryptograms = new ArrayList<>();
-    loadUsers();
+    loadData(new File("src" + File.separator + "data" + File.separator + "users"), users);
+    loadData(
+        new File("src" + File.separator + "data" + File.separator + "cryptograms"), cryptograms);
+
     System.out.println("Users:");
     users.forEach(user -> System.out.println(" - " + user.getUsername()));
+    System.out.println("Cryptograms:");
+    cryptograms.forEach(c -> System.out.println(" - " + c.getCryptogramID()));
+  }
+
+  public void saveAll() {
+    saveData(new File("src" + File.separator + "data" + File.separator + "users"), users);
+    saveData(
+        new File("src" + File.separator + "data" + File.separator + "cryptograms"), cryptograms);
   }
 
   public void addUser(String username) {
@@ -57,16 +67,15 @@ public class AppData {
         .orElse(null);
   }
 
-  File usersDir = new File("src" + File.separator + "data" + File.separator + "users");
-
-  void loadUsers() {
-    File[] usersFiles = this.usersDir.listFiles();
-    System.out.println(Arrays.toString(usersFiles));
-    for (File file : usersFiles) {
+  private <T extends Serializable> void loadData(File path, ArrayList<T> output) {
+    File[] files = path.listFiles();
+    System.out.println(Arrays.toString(files));
+    for (File file : files) {
+      System.out.println(file.toString());
       if (file.getName().endsWith(".ser")) {
         try (FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis)) {
-          users.add((User) ois.readObject());
+          output.add((T) ois.readObject());
         } catch (ClassNotFoundException | IOException error) {
           System.out.println(error.getMessage());
         }
@@ -74,16 +83,22 @@ public class AppData {
     }
   }
 
-  void saveUsers() {
-    if (!usersDir.exists()) {
-      usersDir.mkdirs();
+  private <T extends Serializable> void saveData(File path, ArrayList<T> data) {
+    if (!path.exists()) {
+      path.mkdirs();
     }
 
-    for (User user : users) {
-      try (FileOutputStream fos =
-              new FileOutputStream(usersDir + File.separator + user.getUsername() + ".ser");
+    for (T thing : data) {
+      String filename = "error";
+      if (thing.getClass() == User.class) {
+        filename = ((User) thing).getUsername();
+      } else if (thing.getClass() == Cryptogram.class) {
+        filename = ((Cryptogram) thing).getCryptogramID().toString();
+      }
+
+      try (FileOutputStream fos = new FileOutputStream(path + File.separator + filename + ".ser");
           ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-        oos.writeObject(user);
+        oos.writeObject(thing);
       } catch (IOException error) {
         System.out.println(error.getMessage());
       }

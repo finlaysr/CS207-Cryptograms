@@ -163,16 +163,29 @@ class LoginSignUp extends JPanel {
 
 class GameBoard extends JPanel {
   private final AppData appData;
-  private final JLabel text;
   private final Game game;
 
   public GameBoard(AppData appData) {
     this.appData = appData;
     game = new Game(appData);
 
-    text = new JLabel();
-    this.add(text, GUI.setConstraints(0, 0, 1, 1));
-    text.setText(game.getCurrentCryptogram().getSolution());
+    this.setLayout(new GridBagLayout());
+    this.add(new GameSettings(appData), GUI.setConstraints(0, 0, 1, 1));
+  }
+
+  private class GameSettings extends JPanel {
+    private final AppData appData;
+
+    public GameSettings(AppData appData) {
+      this.appData = appData;
+      this.setLayout(new GridBagLayout());
+
+      JButton newGameButton = new JButton("New Game");
+      JButton resumeGameButton = new JButton("Resume Game");
+
+      this.add(newGameButton, GUI.setConstraints(0, 0, 1, 1));
+      this.add(resumeGameButton, GUI.setConstraints(0, 1, 1, 1));
+    }
   }
 }
 

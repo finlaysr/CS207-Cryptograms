@@ -1,9 +1,10 @@
 /* CS207 Cryptogram Project - Iteration 1 - Group 25 2026 */
 package org.group25;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Cryptogram {
+public class Cryptogram implements Serializable {
   private Integer cryptogramID;
   private String solution;
 

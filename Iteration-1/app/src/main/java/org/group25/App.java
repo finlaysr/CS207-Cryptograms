@@ -12,7 +12,8 @@ public class App {
   public static void shutdown() {
     System.out.println("Users:");
     appData.getUsers().forEach(user -> System.out.println(user.getUsername()));
-    appData.saveUsers();
+
+    appData.saveAll();
   }
 
   public static AppData getAppData() {
