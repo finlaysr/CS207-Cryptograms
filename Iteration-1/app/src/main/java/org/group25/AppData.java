@@ -3,7 +3,6 @@ package org.group25;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class AppData {
@@ -53,7 +52,7 @@ public class AppData {
     return cryptograms.stream();
   }
 
-  public Integer addCryptogram() {
+  public Integer newCryptogram() {
     Integer nextCryptogramId =
         getCryptograms().mapToInt(Cryptogram::getCryptogramID).max().orElse(-1) + 1;
     cryptograms.add(new Cryptogram(nextCryptogramId));
@@ -67,17 +66,23 @@ public class AppData {
         .orElse(null);
   }
 
+  public void removeCryptogram(Integer cryptogramID) {
+    cryptograms.remove(getCryptogram(cryptogramID));
+  }
+
   private <T extends Serializable> void loadData(File path, ArrayList<T> output) {
-    File[] files = path.listFiles();
-    System.out.println(Arrays.toString(files));
-    for (File file : files) {
-      System.out.println(file.toString());
-      if (file.getName().endsWith(".ser")) {
-        try (FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis)) {
-          output.add((T) ois.readObject());
-        } catch (ClassNotFoundException | IOException error) {
-          System.out.println(error.getMessage());
+    if (!path.exists()) {
+      path.mkdirs();
+    } else {
+      File[] files = path.listFiles();
+      for (File file : files) {
+        if (file.getName().endsWith(".ser")) {
+          try (FileInputStream fis = new FileInputStream(file);
+              ObjectInputStream ois = new ObjectInputStream(fis)) {
+            output.add((T) ois.readObject());
+          } catch (ClassNotFoundException | IOException error) {
+            System.out.println(error.getMessage());
+          }
         }
       }
     }

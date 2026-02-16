@@ -3,19 +3,25 @@ package org.group25;
 
 public class Game {
   Cryptogram currentCryptogram;
+  AppData appData;
 
   public Game(AppData appData) {
-    if (appData.getCurrentUser().getCryptogramID() == null) {
-      // If current user doesn't have a cryptogram, create a new one and assign it to the user
-      Integer cryptogramID = appData.addCryptogram();
-      System.out.println("New cryptogram ID: " + cryptogramID);
-      appData.getCurrentUser().setCryptogramID(cryptogramID);
-      System.out.println("here");
-    }
-    System.out.println("cryptogramID: " + appData.getCurrentUser().getCryptogramID());
-    currentCryptogram = appData.getCryptogram(appData.getCurrentUser().getCryptogramID());
+    this.appData = appData;
+  }
 
-    System.out.println("Current Cryptogram: " + currentCryptogram.getSolution());
+  public void newGame() {
+    appData.removeCryptogram(appData.getCurrentUser().getCryptogramID());
+    Integer cryptogramID = appData.newCryptogram();
+    appData.getCurrentUser().setCryptogramID(cryptogramID);
+    currentCryptogram = appData.getCryptogram(cryptogramID);
+  }
+
+  public boolean continueGame() {
+    if (appData.getCurrentUser().getCryptogramID() == null) {
+      return false;
+    }
+    currentCryptogram = appData.getCryptogram(appData.getCurrentUser().getCryptogramID());
+    return true;
   }
 
   public Cryptogram getCurrentCryptogram() {

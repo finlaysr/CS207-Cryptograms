@@ -42,15 +42,19 @@ public class GUI extends JPanel {
     contentPane = new JPanel();
     mainFrame.add(contentPane);
 
-    // Use invokeLater to ensure thread safety
-    SwingUtilities.invokeLater(() -> switchContent(new LoginSignUp(appData)));
+    switchContent(new LoginSignUp(appData));
   }
 
   protected static void switchContent(JPanel pane) {
-    contentPane.removeAll();
-    contentPane.add(pane);
-    contentPane.revalidate(); // Revalidate the content pane to reflect changes
-    contentPane.repaint(); // Ensure the UI is updated
+    // Use invokeLater to ensure thread safety
+    if (SwingUtilities.isEventDispatchThread()) {
+      contentPane.removeAll();
+      contentPane.add(pane);
+      contentPane.revalidate();
+      contentPane.repaint();
+    } else {
+      SwingUtilities.invokeLater(() -> switchContent(pane));
+    }
   }
 
   static GridBagConstraints setConstraints(int x, int y, int width, int height) {
@@ -79,7 +83,6 @@ class LoginSignUp extends JPanel {
   }
 
   class SignUp extends JPanel {
-    private JLabel errorLabel;
     private JTextField usernameField;
     private final AppData appData;
 
@@ -96,33 +99,30 @@ class LoginSignUp extends JPanel {
       JButton logInButton = new JButton("Sign Up");
       logInButton.addActionListener(e -> signUpButton());
       this.add(logInButton, GUI.setConstraints(0, 2, 2, 1));
-
-      errorLabel = new JLabel("");
-      this.add(errorLabel, GUI.setConstraints(0, 3, 2, 1));
     }
 
     private void signUpButton() {
-      errorLabel.setText("");
       usernameField.setText(usernameField.getText().strip());
 
       if (usernameField.getText().isEmpty()) {
-        errorLabel.setText("Username cannot be empty!");
+        JOptionPane.showMessageDialog(
+            this, "Username cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
       } else if (appData.getUsers().findAny().isPresent()
           && appData
               .getUsers()
               .anyMatch(username -> username.getUsername().equals(usernameField.getText()))) {
-        errorLabel.setText("Username already exists!");
+        JOptionPane.showMessageDialog(
+            this, "Username already exists!", "Error", JOptionPane.ERROR_MESSAGE);
       } else {
         System.out.println("user added!");
         appData.addUser(usernameField.getText());
         System.out.println("signed up as " + appData.getCurrentUser().getUsername());
-        SwingUtilities.invokeLater(() -> GUI.switchContent(new GameBoard(appData)));
+        GUI.switchContent(new GameBoard(appData));
       }
     }
   }
 
   class Login extends JPanel {
-    private final JLabel errorLabel;
     private final JTextField usernameField;
     private final AppData appData;
 
@@ -139,23 +139,21 @@ class LoginSignUp extends JPanel {
       JButton logInButton = new JButton("Log In");
       logInButton.addActionListener(e -> loginButton());
       this.add(logInButton, GUI.setConstraints(0, 2, 2, 1));
-
-      errorLabel = new JLabel("");
-      this.add(errorLabel, GUI.setConstraints(0, 3, 2, 1));
     }
 
     public void loginButton() {
-      errorLabel.setText("");
       usernameField.setText(usernameField.getText().strip());
       if (usernameField.getText().isEmpty()) {
-        errorLabel.setText("Username cannot be empty!");
+        JOptionPane.showMessageDialog(
+            this, "Username cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
         return;
       }
       if (this.appData.setCurrentUser(usernameField.getText())) {
         System.out.println("logged in as " + this.appData.getCurrentUser().getUsername());
-        SwingUtilities.invokeLater(() -> GUI.switchContent(new GameBoard(appData)));
+        GUI.switchContent(new GameBoard(appData));
       } else {
-        errorLabel.setText("Username not found");
+        JOptionPane.showMessageDialog(
+            this, "Username not found!", "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }
@@ -168,7 +166,6 @@ class GameBoard extends JPanel {
   public GameBoard(AppData appData) {
     this.appData = appData;
     game = new Game(appData);
-
     this.setLayout(new GridBagLayout());
     this.add(new GameSettings(appData), GUI.setConstraints(0, 0, 1, 1));
   }
@@ -181,10 +178,47 @@ class GameBoard extends JPanel {
       this.setLayout(new GridBagLayout());
 
       JButton newGameButton = new JButton("New Game");
-      JButton resumeGameButton = new JButton("Resume Game");
-
+      newGameButton.addActionListener(
+          _ -> {
+            game.newGame();
+            GUI.switchContent(new MainGame(appData));
+          });
       this.add(newGameButton, GUI.setConstraints(0, 0, 1, 1));
+
+      JButton resumeGameButton = new JButton("Resume Game");
+      resumeGameButton.addActionListener(
+          _ -> {
+            if (game.continueGame()) {
+              GUI.switchContent(new MainGame(appData));
+            } else {
+              JOptionPane.showMessageDialog(
+                  this, "No existing games!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+          });
       this.add(resumeGameButton, GUI.setConstraints(0, 1, 1, 1));
+
+      JButton backButton = new JButton("Back");
+      backButton.addActionListener(_ -> GUI.switchContent(new LoginSignUp(appData)));
+      this.add(backButton, GUI.setConstraints(0, 2, 1, 1));
+    }
+
+    private class MainGame extends JPanel {
+      private final AppData appData;
+
+      public MainGame(AppData appData) {
+        this.appData = appData;
+        this.setLayout(new GridBagLayout());
+
+        this.add(new JTextArea(game.getCurrentCryptogram().getSolution(), 1, 1));
+
+        JButton back = new JButton("Back");
+        back.addActionListener(_ -> GUI.switchContent(new GameBoard(appData)));
+        this.add(back, GUI.setConstraints(0, 1, 1, 1));
+
+        JButton scoreButton = new JButton("View Scoreboard");
+        scoreButton.addActionListener(_ -> GUI.switchContent(new Scoreboard(appData, this)));
+        this.add(scoreButton, GUI.setConstraints(0, 2, 1, 1));
+      }
     }
   }
 }
@@ -193,7 +227,7 @@ class Scoreboard extends JPanel {
   private final AppData appData;
   JTable table;
 
-  public Scoreboard(AppData appData) {
+  public Scoreboard(AppData appData, JPanel previous) {
     this.appData = appData;
 
     this.setLayout(new GridBagLayout());
@@ -208,6 +242,10 @@ class Scoreboard extends JPanel {
     table.setDefaultEditor(Object.class, null);
 
     JScrollPane scrollPane = new JScrollPane(table);
-    this.add(scrollPane);
+    this.add(scrollPane, GUI.setConstraints(0, 1, 1, 1));
+
+    JButton back = new JButton("Back");
+    back.addActionListener(_ -> GUI.switchContent(previous));
+    this.add(back, GUI.setConstraints(0, 0, 1, 1));
   }
 }
