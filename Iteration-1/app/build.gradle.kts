@@ -69,6 +69,6 @@ spotless {
         formatAnnotations()
 
         // license header
-        licenseHeader("/* CS207 Cryptogram Project - Group 25 2026 */")
+        licenseHeader("/* CS207 Cryptogram Project - Iteration 1 - Group 25 2026 */")
     }
 }

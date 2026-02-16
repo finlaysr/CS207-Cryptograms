@@ -1,4 +1,4 @@
-/* CS207 Cryptogram Project - Group 25 2026 */
+/* CS207 Cryptogram Project - Iteration 1 - Group 25 2026 */
 package org.group25;
 
 import java.awt.GridBagConstraints;
@@ -52,6 +52,15 @@ public class GUI extends JPanel {
     contentPane.revalidate(); // Revalidate the content pane to reflect changes
     contentPane.repaint(); // Ensure the UI is updated
   }
+
+  static GridBagConstraints setConstraints(int x, int y, int width, int height) {
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = x;
+    gbc.gridy = y;
+    gbc.gridwidth = width;
+    gbc.gridheight = height;
+    return gbc;
+  }
 }
 
 class LoginSignUp extends JPanel {
@@ -64,7 +73,7 @@ class LoginSignUp extends JPanel {
     JTabbedPane tabs = new JTabbedPane();
     tabs.addTab("Sign Up", new SignUp(appData));
     tabs.addTab("Log In", new Login(appData));
-    this.add(tabs, setConstraints(0, 0, 1, 1));
+    this.add(tabs, GUI.setConstraints(0, 0, 1, 1));
     this.revalidate();
     this.repaint();
   }
@@ -78,18 +87,18 @@ class LoginSignUp extends JPanel {
       this.appData = appData;
 
       this.setLayout(new GridBagLayout());
-      this.add(new JLabel("Welcome to the app!:"), setConstraints(0, 0, 2, 1));
-      this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
+      this.add(new JLabel("Welcome to the app!:"), GUI.setConstraints(0, 0, 2, 1));
+      this.add(new JLabel("Username:"), GUI.setConstraints(0, 1, 1, 1));
 
       usernameField = new JTextField(20);
-      this.add(usernameField, setConstraints(1, 1, 1, 1));
+      this.add(usernameField, GUI.setConstraints(1, 1, 1, 1));
 
       JButton logInButton = new JButton("Sign Up");
       logInButton.addActionListener(e -> signUpButton());
-      this.add(logInButton, setConstraints(0, 2, 2, 1));
+      this.add(logInButton, GUI.setConstraints(0, 2, 2, 1));
 
       errorLabel = new JLabel("");
-      this.add(errorLabel, setConstraints(0, 3, 2, 1));
+      this.add(errorLabel, GUI.setConstraints(0, 3, 2, 1));
     }
 
     private void signUpButton() {
@@ -98,38 +107,41 @@ class LoginSignUp extends JPanel {
 
       if (usernameField.getText().isEmpty()) {
         errorLabel.setText("Username cannot be empty!");
-      } else if (this.appData
-          .getUsers()
-          .anyMatch(username -> username.getUsername().equals(usernameField.getText()))) {
+      } else if (appData.getUsers().findAny().isPresent()
+          && appData
+              .getUsers()
+              .anyMatch(username -> username.getUsername().equals(usernameField.getText()))) {
         errorLabel.setText("Username already exists!");
       } else {
         System.out.println("user added!");
-        this.appData.addUser(usernameField.getText());
-        System.out.println("logged in as " + this.appData.getCurrentUser().getUsername());
+        appData.addUser(usernameField.getText());
+        System.out.println("signed up as " + appData.getCurrentUser().getUsername());
+        SwingUtilities.invokeLater(() -> GUI.switchContent(new GameBoard(appData)));
       }
     }
   }
 
   class Login extends JPanel {
-    private JLabel errorLabel;
-    private JTextField usernameField;
+    private final JLabel errorLabel;
+    private final JTextField usernameField;
     private final AppData appData;
 
     public Login(AppData appData) {
       this.appData = appData;
+
       this.setLayout(new GridBagLayout());
-      this.add(new JLabel("Welcome back!:"), setConstraints(0, 0, 2, 1));
-      this.add(new JLabel("Username:"), setConstraints(0, 1, 1, 1));
+      this.add(new JLabel("Welcome back!:"), GUI.setConstraints(0, 0, 2, 1));
+      this.add(new JLabel("Username:"), GUI.setConstraints(0, 1, 1, 1));
 
       usernameField = new JTextField(20);
-      this.add(usernameField, setConstraints(1, 1, 1, 1));
+      this.add(usernameField, GUI.setConstraints(1, 1, 1, 1));
 
       JButton logInButton = new JButton("Log In");
       logInButton.addActionListener(e -> loginButton());
-      this.add(logInButton, setConstraints(0, 2, 2, 1));
+      this.add(logInButton, GUI.setConstraints(0, 2, 2, 1));
 
       errorLabel = new JLabel("");
-      this.add(errorLabel, setConstraints(0, 3, 2, 1));
+      this.add(errorLabel, GUI.setConstraints(0, 3, 2, 1));
     }
 
     public void loginButton() {
@@ -141,20 +153,26 @@ class LoginSignUp extends JPanel {
       }
       if (this.appData.setCurrentUser(usernameField.getText())) {
         System.out.println("logged in as " + this.appData.getCurrentUser().getUsername());
-        SwingUtilities.invokeLater(() -> GUI.switchContent(new Scoreboard(appData)));
+        SwingUtilities.invokeLater(() -> GUI.switchContent(new GameBoard(appData)));
       } else {
-        errorLabel.setText("Username already exists!");
+        errorLabel.setText("Username not found");
       }
     }
   }
+}
 
-  private GridBagConstraints setConstraints(int x, int y, int width, int height) {
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.gridx = x;
-    gbc.gridy = y;
-    gbc.gridwidth = width;
-    gbc.gridheight = height;
-    return gbc;
+class GameBoard extends JPanel {
+  private final AppData appData;
+  private final JLabel text;
+  private final Game game;
+
+  public GameBoard(AppData appData) {
+    this.appData = appData;
+    game = new Game(appData);
+
+    text = new JLabel();
+    this.add(text, GUI.setConstraints(0, 0, 1, 1));
+    text.setText(game.getCurrentCryptogram().getSolution());
   }
 }
 
