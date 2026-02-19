@@ -10,15 +10,36 @@ top to bottom direction
 !include ./appdata.puml
 
 class App{
+    - appData: AppData [1]
+    + **App()**
 
-    - appdata: Appdata
-
-    .. methods ..
     + runner() 
     + login()
     + gameSetting()
-    + startGame(chosen: int)
+    + startGame()
+    + showLeaderboard()
     + shutdown()
 }
+note left of App::appData
+    This contains all the data stored in the app, 
+    so that all parts of the app can access the 
+    data that they need
+end note
+note left of App::startGame
+    Start game will inititalize the crytogram, 
+    display the puzzle
+    and frequencies, and will run getInput in a loop
+end note
+
+AppData "1" *-- "*" Cryptogram: > contains many
+AppData "1" *-- "*" Player: > contains many
+Player - Cryptogram
+Cryptogram --> CryptoType
+App -- Game: > Runs Game
+(App, Game) --* AppData
+
+note right of App::showLeaderboard #red
+    User Story 13
+end note
 
 @enduml

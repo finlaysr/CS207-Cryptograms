@@ -5,7 +5,7 @@ class Player {
     - gamesTotal: int
     - currCryptoID: int
 
-    
+    + **Player()**
     ..Setter Methods..
     + incrementGamesWon() 
     + incrementGamesTotal()
@@ -16,6 +16,7 @@ class Player {
     + getGamesTotal(): int
     + getCurrCryptoID(): int
 }
+
 note left of Player::currCryptoID
  If this is NULL:
  The player doesn't 
@@ -26,4 +27,12 @@ note left of Player::currCryptoID
  Or they've finished their 
  previus cryptogram
 end note
+
+note right of Player::gamesWon #red
+    User Story 9
+end note
+note right of Player::gamesTotal #red
+    User Story 10
+end note
+
 @enduml

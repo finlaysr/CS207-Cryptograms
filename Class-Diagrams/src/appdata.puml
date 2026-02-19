@@ -1,13 +1,45 @@
-class Appdata {
+@startuml
+
+class AppData {
     - currentUser: User
     - users: ArrayList<User>
     - cryptograms: ArrayList<Cryptogram> 
 
+    + **AppData()**
     .. setter..
     + setCurrentUser(username: String)
     + newUser(username: String)
     + checkUserExists(username: String): boolean
     + newCryptogram(): int
     ..getters..
-    + getCyptogram(cryptoID: int): Cryptogram
+    + getCryptogram(cryptoID: int): Cryptogram
+    + getCryptograms(): ArrayList<Cryptogram> 
+    + saveToFile()
+    + loadFromFile()
 }
+
+note right of AppData 
+    Stores data during the running of the game
+end note
+
+note right of AppData::currentUser
+    Reference to one element in the users array
+end note
+
+note right of AppData::newCryptogram #red
+    User Story 1
+end note
+
+note right of AppData::saveToFile #red
+    User Story 4
+end note
+
+note right of AppData::loadFromFile #red
+    User Story 5,12
+end note
+
+note right of AppData::users #red
+    User Story 8
+end note
+
+@enduml

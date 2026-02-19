@@ -1,23 +1,26 @@
 @startuml
 
 class Game {
-    - currPlayer: Player
-    - players: arraylist<Player>
-
-    + startup()
-    + shutdown()
-    - enterInput(): String
-    - processInput(input: String)
+    - appData: AppData
+    - currCryptogram: Cryptogram
+    + **Game(appData: AppData)**
+    + enterInput()
+    + checkSolution(): boolean
 }
 
-note left of Game::startup
-    loads files,
-    creates users and cryptograms
+note left of Game::currCryptogram
+This is just for convienience
+Otherwhise you would have to do:
+appData.getCryptogram(appData.getCurrUser().getCryptogramID())
+end note
+note left of Game::enterInput
+If the user input asks for a hint or the solution, 
+currCryptogram.getHint() or currCryptogram.getSolution()
+would be called
 end note
 
-note left of Game::shutdown
-    saves players and
-    cryptograms to files
-end note
 
+note left of Game::enterInput #red
+    User Story 2
+end note
 @enduml
