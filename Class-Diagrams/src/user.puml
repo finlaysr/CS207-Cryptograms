@@ -1,28 +1,29 @@
 @startuml
-
-interface User {
-    ..setter methods..
-    + genID()
-
-    ..getter methods..
-    + getName(): String
-    + getID(): int
-}
-
-class Player implements User {
-    - userID: int
+class Player {
     - name: String
-    - score: int
-    - currCrypto: Cryptogram
+    - gamesWon: int
+    - gamesTotal: int
+    - currCryptoID: int
 
-    - saveToFile()
+    
     ..Setter Methods..
-    - updateScore()
-    + loadFromFile(file: File): Player
-
+    + incrementGamesWon() 
+    + incrementGamesTotal()
+    + setCurrentCypto(newCryptoID: int)
     ..Getter Methods..
-    + getScore(): int
-    + getCurrCrypto(): Cryptogram
+    + getName(): String
+    + getGamesWon(): int
+    + getGamesTotal(): int
+    + getCurrCryptoID(): int
 }
+note left of Player::currCryptoID
+ If this is NULL:
+ The player doesn't 
+ have a current 
+ cryptogram
 
+ If they are a new player
+ Or they've finished their 
+ previus cryptogram
+end note
 @enduml

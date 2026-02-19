@@ -7,14 +7,18 @@ top to bottom direction
 !include ./game.puml
 !include ./cryptogram.puml
 !include ./user.puml
+!include ./appdata.puml
 
-class Scoreboard{
+class App{
+
+    - appdata: Appdata
+
+    .. methods ..
+    + runner() 
+    + login()
+    + gameSetting()
+    + startGame(chosen: int)
+    + shutdown()
 }
-note bottom: why do we need this?
-
-class GUI{
-}
-
-Package javax.Swing{}
 
 @enduml

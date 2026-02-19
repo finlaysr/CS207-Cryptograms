@@ -1,0 +1,13 @@
+class Appdata {
+    - currentUser: User
+    - users: ArrayList<User>
+    - cryptograms: ArrayList<Cryptogram> 
+
+    .. setter..
+    + setCurrentUser(username: String)
+    + newUser(username: String)
+    + checkUserExists(username: String): boolean
+    + newCryptogram(): int
+    ..getters..
+    + getCyptogram(cryptoID: int): Cryptogram
+}

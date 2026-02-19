@@ -3,35 +3,45 @@
 ' Maybe should be a interface
 class Cryptogram {
     - cryptoID: int
+    - cryptoType: CryptoType
     - solution: String
-    - guesses: Stack<Hashmap<Character, Character>>
-
+    - guesses: LinkedHashmap<Character, Character>
+    - correctMappings: Hashmap<Character, Character>
+    
     + getHint()
-    + getSol()
+    + getSolution()
     + undoInput()
 
-    + loadFromFile(file: File): Cryptogram
-    + saveToFile()
     ..getters..
     + getCryptoID(): int
-    + getFreq(): Hashmap<Character, int>
+    + getFrequency(): Hashmap<Character, int>
 }
 
+enum CryptoType{
+
+    + letter-to-letter
+    + letter-to-number
+}
+
+
+
 note left of Cryptogram::guesses
- Hashmap<key, value>:
- hey: correct character
- value: user guess
+    This is stored in a linked hashmap
+    because so that we can remove the last 
+    guess using the undoInput() method
+
+    Stored in form:
+    LinkedHashmap<guess, encrypted>
+end note
+
+note left of Cryptogram::correctMappings
+    Stored in form:
+    LinkedHashmap<correct, encrypted>
 end note
 
 note left of Cryptogram::undoInput
     pop the last value
     from the guesses stack
-end note
-
-note left of Cryptogram::loadFromFile
-    creates a new cryptogram
-    using data stored in a
-    file from the previous run
 end note
 
 @enduml
