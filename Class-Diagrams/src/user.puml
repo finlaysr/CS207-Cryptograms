@@ -1,11 +1,11 @@
 @startuml
-class Player {
+class User {
     - name: String
     - gamesWon: int
     - gamesTotal: int
     - currCryptoID: int
 
-    + **Player()**
+    + **User()**
     ..Setter Methods..
     + incrementGamesWon() 
     + incrementGamesTotal()
@@ -17,7 +17,15 @@ class Player {
     + getCurrCryptoID(): int
 }
 
-note left of Player::currCryptoID
+note left of User::gamesWon
+    <color:royalBlue>User Story 9</color>
+end note
+
+note left of User::gamesTotal
+    <color:royalBlue>User Story 10</color>
+end note
+
+note left of User::currCryptoID
  If this is NULL:
  The player doesn't 
  have a current 
@@ -28,11 +36,5 @@ note left of Player::currCryptoID
  previus cryptogram
 end note
 
-note right of Player::gamesWon #red
-    User Story 9
-end note
-note right of Player::gamesTotal #red
-    User Story 10
-end note
 
 @enduml

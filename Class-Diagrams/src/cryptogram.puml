@@ -1,6 +1,6 @@
 @startuml
 
-' Maybe should be a interface
+' Maybe should be an interface
 class Cryptogram {
     - cryptoID: int
     - cryptoType: CryptoType
@@ -27,6 +27,10 @@ enum CryptoType{
     + letter-to-number
 }
 
+note right of CryptoType
+    Stores type of cryptogram
+end Note
+
 
 note right of Cryptogram::guesses
     This is stored in a linked hashmap
@@ -47,24 +51,24 @@ note right of Cryptogram::undoInput
     from the guesses stack
 end note
 
-note right of Cryptogram::undoInput #red
-    User Story 3
+note right of Cryptogram::userGuessAccuracy
+    <color:royalBlue>User Story 11</color>
 end note
 
-note right of Cryptogram::showSolution #red
-    User Story 6
+note right of Cryptogram::getHint
+    <color:royalBlue>User Story 14</color>
 end note
 
-note right of Cryptogram::getFrequency #red
-    User Story 7
+note right of Cryptogram::showSolution
+    <color:royalBlue>User Story 6</color>
 end note
 
-note right of Cryptogram::userGuessAccuracy #red
-    User Story 11
+note right of Cryptogram::undoInput
+    <color:royalBlue>User Story 3</color>
 end note
 
-note right of Cryptogram::getHint #red
-    User Story 14
+note right of Cryptogram::getFrequency
+    <color:royalBlue>User Story 7</color>
 end note
 
 @enduml

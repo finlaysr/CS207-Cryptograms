@@ -18,28 +18,30 @@ class AppData {
     + loadFromFile()
 }
 
-note right of AppData 
-    Stores data during the running of the game
+note top of AppData
+    Stores data while app running
 end note
 
 note right of AppData::currentUser
     Reference to one element in the users array
 end note
 
-note right of AppData::newCryptogram #red
-    User Story 1
+note right of AppData::users
+    <color:royalBlue>User Story 8</color>
 end note
 
-note right of AppData::saveToFile #red
-    User Story 4
+note right of AppData::newCryptogram
+    <color:royalBlue>User Story 1</color>
 end note
 
-note right of AppData::loadFromFile #red
-    User Story 5,12
+note right of AppData::saveToFile
+    <color:royalBlue>User Story 4</color>
 end note
 
-note right of AppData::users #red
-    User Story 8
+note right of AppData::loadFromFile
+    <color:royalBlue>User Story 5, 12</color>
 end note
+
+
 
 @enduml
