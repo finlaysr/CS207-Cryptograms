@@ -1,13 +1,21 @@
 @startuml
 title CS207 Cryptogram Project - Class Diagram - Group 25 2026
 top to bottom direction
-'!pragma layout smetana
+' skinparam classAttributeIconSize 0
+' !pragma layout smetana
 
 ' Include these parts of the diagram
 !include ./game.puml
 !include ./cryptogram.puml
 !include ./user.puml
 !include ./appdata.puml
+
+class KEY << (K,white) >> #back:lightgrey {
+    + This is a public attribute
+    - This is a private attribute
+    +{method} This is a public method
+    -{method} This is a private method
+}
 
 class App{
     - appData: AppData [1]
@@ -33,7 +41,7 @@ note left of App::startGame
     ""enterInput()"" in a loop
 end note
 
-note right of App::showLeaderboard
+note left of App::showLeaderboard
     <color:royalBlue>User Story 13</color>
 end note
 
@@ -45,5 +53,8 @@ AppData "1 " *-- " *   " Cryptogram: > Contains many
 AppData "1    " *-- "*" User: > Contains many
 User - Cryptogram: > Has one
 Cryptogram --> CryptoType
+
+KEY -[hidden]- Game
+KEY -[hidden]- App
 
 @enduml

@@ -5,6 +5,7 @@ class User {
     - gamesTotal: int
     - currCryptoID: int
 
+    __
     + **User()**
     ..Setter Methods..
     + incrementGamesWon() 

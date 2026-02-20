@@ -3,6 +3,8 @@
 class Game {
     - currCrypto: Cryptogram
     - currUser: User
+
+    __
     + **Game(currCrpyto: Cryptogram, currUser: User)**
     + enterInput()
     + checkSolution(): boolean
