@@ -8,7 +8,7 @@ class Cryptogram {
     - guesses: LinkedHashmap<Character, Character>
     - correctMappings: Hashmap<Character, Character>
 
-    + **Cryptogram(CryptoID int)**
+    + **Cryptogram(cryptoID int)**
     ..setter & other funcs..
     + userGuessAccuracy(): int    
     + getHint()
@@ -21,9 +21,8 @@ class Cryptogram {
 }
 
 enum CryptoType{
-
-    + letter-to-letter
-    + letter-to-number
+    + LETTER_TO_LETTER
+    + LETTER_TO_NUMBER
 }
 
 note right of CryptoType
@@ -33,7 +32,7 @@ end Note
 
 note right of Cryptogram::guesses
     This is stored in a linked hashmap
-    because so that we can remove the last 
+    so that we can remove the last
     guess using the ""undoInput()"" method
 
     Stored in form:
@@ -42,12 +41,12 @@ end note
 
 note right of Cryptogram::correctMappings
     Stored in form:
-    ""LinkedHashmap<correct, encrypted>""
+    ""Hashmap<correct, encrypted>""
 end note
 
-note right of Cryptogram::undoInput
-    pop the last value
-    from the guesses stack
+note right of Cryptogram::Cryptogram
+    Takes in value of ""cryptoID"" so that
+    it doesn't use a preexisting value
 end note
 
 note right of Cryptogram::userGuessAccuracy
