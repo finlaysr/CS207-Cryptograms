@@ -1,6 +1,6 @@
 @startuml
 class User {
-    - name: String
+    - username: String
     - gamesWon: int
     - gamesTotal: int
     - currCryptoID: int
@@ -12,7 +12,7 @@ class User {
     + incrementGamesTotal()
     + setCurrentCypto(newCryptoID: int)
     ..Getter Methods..
-    + getName(): String
+    + getUserName(): String
     + getGamesWon(): int
     + getGamesTotal(): int
     + getCurrCryptoID(): int

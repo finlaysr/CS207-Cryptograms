@@ -20,8 +20,8 @@ end note
 note right of Game::enterInput
     If the user input asks for a
     hint or the solution,
-    ""currCrypto.getHint()""
-    or ""currCryptogram.getSolution()""
+    ""currCrypto.getHint()""  or
+    ""currCryptogram.getSolution()""
     would be called.
     <color:royalBlue>User Story 2</color>
 end note

@@ -7,16 +7,17 @@ class AppData {
 
     __
     + **AppData()**
-    .. setter..
-    + setCurrentUser(username: String)
     + newUser(username: String)
     + checkUserExists(username: String): boolean
     + newCryptogram(): int
-    ..getters..
-    + getCryptogram(cryptoID: int): Cryptogram
-    + getCryptograms(): ArrayList<Cryptogram> 
     + saveToFile()
     + loadFromFile()
+    .. setter..
+    + setCurrentUser(username: String)
+    ..getters..
+    + getUser(username: String): User
+    + getCryptogram(cryptoID: int): Cryptogram
+    + getCryptograms(): ArrayList<Cryptogram> 
 }
 
 note right of AppData
