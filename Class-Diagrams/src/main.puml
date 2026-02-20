@@ -1,7 +1,7 @@
 @startuml
 title CS207 Cryptogram Project - Class Diagram - Group 25 2026
 top to bottom direction
-' !pragma layout smetana
+'!pragma layout smetana
 
 ' Include these parts of the diagram
 !include ./game.puml
@@ -12,8 +12,7 @@ top to bottom direction
 class App{
     - appData: AppData [1]
     + **App()**
-
-    + runner() 
+    + runner()
     + login()
     + gameSetting()
     + startGame()
@@ -22,8 +21,8 @@ class App{
 }
 
 note left of App::appData
-    This contains all the data stored in the app, 
-    so that all parts of the app can access the 
+    This contains all the data stored in the app,
+    so that all parts of the app can access the
     data that they need
 end note
 
@@ -33,12 +32,14 @@ note left of App::startGame
     and frequencies, and will run getInput in a loop
 end note
 
-AppData "1" *-- "*" Cryptogram: > contains many
-AppData "1" *-- "*" User: > contains many
-User - Cryptogram
+App - Game: > Runs Game
+App -- AppData: > Contains one
+Game -- AppData: > Contains one
+
+AppData "1" *-- " *    " Cryptogram: > contains many
+AppData "1    " *-- "*" User: > contains many
+User - Cryptogram: > Has one
 Cryptogram --> CryptoType
-App -- Game: > Runs Game
-(App, Game) --* AppData
 
 note right of App::showLeaderboard
     <color:royalBlue>User Story 13</color>

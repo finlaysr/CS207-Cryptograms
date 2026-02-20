@@ -1,28 +1,26 @@
 @startuml
 
 class Game {
-    - appData: AppData
+    - appData: AppData [1]
     - currentCryptogram: Cryptogram
     + **Game(appData: AppData)**
     + enterInput()
     + checkSolution(): boolean
 }
 
-note left of Game::currentCryptogram
+note right of Game::currentCryptogram
     This is just for convenience
     Otherwise you would have to do:
     <i>appData.getCryptogram(appData </i>
     <i>    .getCurrentUser().getCryptogramID())</i>
 end note
 
-note left of Game::enterInput
-If the user input asks for a hint or the solution, 
-currCryptogram.getHint() or currCryptogram.getSolution()
-would be called
-end note
-
-
-note left of Game::enterInput
+note right of Game::enterInput
+    If the user input asks for a hint or the solution,
+    currCryptogram.getHint() or currCryptogram.getSolution()
+    would be called.
     <color:royalBlue>User Story 2</color>
 end note
+
+
 @enduml

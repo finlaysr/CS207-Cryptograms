@@ -9,7 +9,6 @@ class Cryptogram {
     - correctMappings: Hashmap<Character, Character>
 
     + **Cryptogram(CryptoID int)**
-
     ..setter & other funcs..
     + userGuessAccuracy(): int    
     + getHint()
@@ -28,7 +27,7 @@ enum CryptoType{
 }
 
 note right of CryptoType
-    Stores type of cryptogram
+    Enum that stores type of cryptogram
 end Note
 
 
@@ -56,10 +55,12 @@ note right of Cryptogram::userGuessAccuracy
 end note
 
 note right of Cryptogram::getHint
+    Would add a correct letter to guesses
     <color:royalBlue>User Story 14</color>
 end note
 
 note right of Cryptogram::showSolution
+    Would fill guesses in with correct mappings
     <color:royalBlue>User Story 6</color>
 end note
 

@@ -18,27 +18,34 @@ class AppData {
     + loadFromFile()
 }
 
-note top of AppData
+note right of AppData
     Stores data while app running
 end note
 
-note right of AppData::currentUser
-    Reference to one element in the users array
+
+note left of AppData::currentUser
+    Reference to one
+    element in the
+    users array
 end note
 
-note right of AppData::users
+note left of AppData::users
     <color:royalBlue>User Story 8</color>
 end note
 
-note right of AppData::newCryptogram
+note left of AppData::newCryptogram
     <color:royalBlue>User Story 1</color>
 end note
 
-note right of AppData::saveToFile
+note left of AppData::saveToFile
+    Saves all the user and
+    cryptogram data in some files
     <color:royalBlue>User Story 4</color>
 end note
 
-note right of AppData::loadFromFile
+note left of AppData::loadFromFile
+    Loads all the user and
+    cryptogram data from some files
     <color:royalBlue>User Story 5, 12</color>
 end note
 
