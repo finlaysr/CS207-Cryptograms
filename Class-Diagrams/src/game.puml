@@ -1,23 +1,25 @@
 @startuml
 
 class Game {
-    - appData: AppData [1]
-    - currentCryptogram: Cryptogram
-    + **Game(appData: AppData)**
+    - currCrypto: Cryptogram
+    - currUser: User
+    + **Game(currCrpyto: Cryptogram, currUser: User)**
     + enterInput()
     + checkSolution(): boolean
+    + displayState()
 }
 
-note right of Game::currentCryptogram
-    This is just for convenience
-    Otherwise you would have to do:
-    <i>appData.getCryptogram(appData </i>
-    <i>    .getCurrentUser().getCryptogramID())</i>
+note right of Game::currCrypto
+    References to current user
+    and current cryptogram fields
+    from main AppData
 end note
 
 note right of Game::enterInput
-    If the user input asks for a hint or the solution,
-    currCryptogram.getHint() or currCryptogram.getSolution()
+    If the user input asks for a
+    hint or the solution,
+    ""currCrypto.getHint()""
+    or ""currCryptogram.getSolution()""
     would be called.
     <color:royalBlue>User Story 2</color>
 end note

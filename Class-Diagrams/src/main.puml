@@ -22,19 +22,19 @@ class App{
 
 note left of App::appData
     This contains all the data stored in the app,
-    so that all parts of the app can access the
-    data that they need
+    to provide the correct data to the parts
+    of the app that need it
 end note
 
 note left of App::startGame
-    Start game will initialize the cryptogram,
-    display the puzzle
-    and frequencies, and will run getInput in a loop
+    Start game will initialize the
+    cryptogram, display the puzzle
+    and frequencies, and will run
+    ""enterInput()"" in a loop
 end note
 
-App - Game: > Runs Game
+App -right- Game: > Runs Game
 App -- AppData: > Contains one
-Game -- AppData: > Contains one
 
 AppData "1" *-- " *    " Cryptogram: > contains many
 AppData "1    " *-- "*" User: > contains many
@@ -44,5 +44,7 @@ Cryptogram --> CryptoType
 note right of App::showLeaderboard
     <color:royalBlue>User Story 13</color>
 end note
+
+
 
 @enduml

@@ -26,7 +26,7 @@ note left of User::gamesTotal
 end note
 
 note left of User::currCryptoID
- If this is NULL:
+ If this is ""NULL"":
  The player doesn't 
  have a current 
  cryptogram

@@ -34,15 +34,15 @@ end Note
 note right of Cryptogram::guesses
     This is stored in a linked hashmap
     because so that we can remove the last 
-    guess using the undoInput() method
+    guess using the ""undoInput()"" method
 
     Stored in form:
-    LinkedHashmap<guess, encrypted>
+    ""LinkedHashmap<guess, encrypted>""
 end note
 
 note right of Cryptogram::correctMappings
     Stored in form:
-    LinkedHashmap<correct, encrypted>
+    ""LinkedHashmap<correct, encrypted>""
 end note
 
 note right of Cryptogram::undoInput
